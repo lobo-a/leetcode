@@ -31,18 +31,24 @@ func mergeArray(a, b []int)[]int{
 	return ret
 }
 
+func findMedian(arr []int)(median float64){
+	length := len(arr)
+	if length == 0 {
+		return 0
+	}
+	if length % 2 == 0 {
+		median = float64(arr[length / 2] + arr[length / 2 - 1]) / 2.0
+	}else{
+		median = float64(arr[int(length / 2)])
+	}
+	return median
+}
+
 func main() {
 	// https://leetcode.cn/problems/median-of-two-sorted-arrays/
 	//
 	arr := mergeArray([]int{1,2}, []int{3,4})
-	length := len(arr)
-	if length % 2 == 0 {
-		median := float64(arr[length / 2] + arr[length / 2 - 1]) / 2.0
-		fmt.Println(median)
-	}else{
-		median := arr[int(length / 2)]
-		fmt.Println(median)
-	}
-	fmt.Println()
+	
+	fmt.Println(findMedian(arr))
 	fmt.Println("xxxx")
 }
