@@ -29,11 +29,11 @@ func longestConsecutive(nums []int) int{
 		}
 		// 更新连续首位的值
 		if preMax > 0 {
-			numsMap[v-preMax] = ret
+			numsMap[v-preMax] = numsMap[v]
 		}
 		// 更新连续末位的值
 		if nextMax > 0 {
-			numsMap[v+nextMax] = ret
+			numsMap[v+nextMax] = numsMap[v]
 		}
 	}
 	return  ret
