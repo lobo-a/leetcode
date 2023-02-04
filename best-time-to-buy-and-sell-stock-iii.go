@@ -5,42 +5,42 @@ import (
 
 func maxProfit(prices []int) int {
 	ret := 0
-	//every day profit
-	profits := make([]int, 0)
-	maxProfits := make([]int, 2)
 	length := len(prices)
-	for i := 1; i < length; i ++ {
-		profit := prices[i] - prices[i-1]
-		profitLen := len(profits)
-		isAdd := true
-		if profitLen > 0 {
-			if (profit * profits[profitLen - 1]) >= 0 {
-				profits[profitLen - 1] = profits[profitLen - 1] + profit
-				isAdd = false
-			}
+	leftProfit := make([]int, length)
+	rightProfit := make([]int, length)
+	for i, buy := 1, prices[0]; i < length; i ++ {
+		profit := prices[i] - buy
+		if profit > leftProfit[i - 1] {
+			leftProfit[i] = profit
+		}else {
+			leftProfit[i] = leftProfit[i - 1]
 		}
-		if isAdd == true {
-			profits = append(profits, profit)
-		}
-	}
-	profitsLen := len(profits)
-	for i := 0; i < profitsLen; i ++ {
-		if profits[i] > maxProfits[0] || profits[i] > maxProfits[1] {
-			if maxProfits[0] > maxProfits[1] {
-				maxProfits[1] = profits[i]
-			}else {
-				maxProfits[0] = profits[i]
-			}
+		if prices[i] < buy {
+			buy = prices[i]
 		}
 	}
-	// fmt.Println(profits)
-	ret = maxProfits[0] + maxProfits[1]
+	for i, sale := length - 2, prices[length - 1]; i > 0; i -- {
+		profit := sale - prices[i]
+		if profit > rightProfit[i + 1] {
+			rightProfit[i] = profit
+		}else {
+			rightProfit[i] = rightProfit[i + 1]
+		}
+		if prices[i] > sale {
+			sale = prices[i]
+		}
+		maxProfit := leftProfit[i] + rightProfit[i]
+		if maxProfit > ret{
+			ret = maxProfit
+		}
+	}
 	return ret
 }
 
 func main() {
 	// https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
-	prices := []int{3,3,5,0,0,3,1,4}
+	// https://blog.csdn.net/MIC10086/article/details/113872698
+	prices := []int{3,3,5,0,0,3,2,5}
 	fmt.Println(maxProfit(prices))
 	fmt.Println("xxxx")
 }
