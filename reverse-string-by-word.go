@@ -42,3 +42,30 @@ func reverseSubStr(str []byte, start, end int) []byte {
 	}
 	return str
 }
+
+func reverseStr2(str []byte) []byte {
+	length := len(str)
+	ret := make([]byte, 0)
+	sp := byte(' ')
+	end, st := -1, -1
+	for i := length - 1; i >= 0; i-- {
+		letter := str[i]
+		if letter != sp {
+			if end == -1 {
+				end = i
+			}
+			st = i
+		}
+		if i == 0 || letter == sp {
+			if end != -1 {
+				ret = append(ret, str[st:end+1]...)
+				st = -1
+				end = -1
+			}
+			if i != 0 {
+				ret = append(ret, sp)
+			}
+		}
+	}
+	return ret
+}
